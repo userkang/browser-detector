@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=1, user-scalable=no">
+	<title>浏览器检测工具</title>
+	<style type="text/css">
+		html body{
+			font-size: 14px;
+		}
+		table{
+			margin-bottom: 10px;
+		}
+		.btn{
+		    display: inline-block;
+		    color: #fff;
+		    width: 14em;
+		    background-color: #04be02;
+		    line-height: 1;
+		    font-size: 14px;
+		    padding: 8px 16px;
+		    z-index: 10000;
+		    border-radius: 4px;
+		    box-shadow: 0 0 8px rgba(0,0,0,.4);
+		    margin-bottom: 10px;
+		}
+		td {
+			color: #fff;
+			padding: 4px;
+			border-radius: 2px;
+			font-size: 13px;
+		}
+		.green{
+		    background-color: #39b54a;
+		}
+		.red{
+		    background-color: #c44230;
+		}
+		.tips{
+			position: absolute;
+			top: 5px;
+			right: 0
+		}
+		.tips span{
+			color: #fff;
+			font-size: 10px;
+			padding: 5px;
+			border-radius: 5px;
+		} 
+		.part{
+			position: relative;
+		}
+		.content{
+			background: #39b54a;
+			line-height: 1.5;
+			border-radius: 5px;
+    		font-size: 13px;
+    		color: #333;
+		}
+	</style>
+	<script src="modernizr-custom.js"></script>
+	<script src="vconsole.js"></script>
+</head>
+<body>
+	<div class="part">
+		<div class="btn" id="btn1">1、点击查看支持特性检测结果</div>
+		<div class="tips">
+			<span class="red">不支持</span>
+			<span class="green">支持</span>
+		</div>
+		<table style="display: none"></table>
+	</div>
+	<div class="part">
+		<div class="btn" id="btn2">2、点击查看屏幕相关参数</div>
+		<div class="content" id="content" style="display: none"></div>
+	</div>
+</body>
+<script>
+	window.onload = (function(){
+		var config = [
+					'applicationcache',
+					'canvas', 
+					'indexeddb', 
+					'localstorage',
+					'performance',
+					'preserve3d',
+					'promises',
+					'requestanimationframe',
+					'serviceworker',
+					'sessionstorage',
+					'svg',
+					'webanimations',
+					'webgl',
+					'webworkers',
+					'flexbox',
+					'flexwrap',
+					'csstransforms',
+					'csstransforms3d',
+					'csstransitions',
+					'webp',
+					'websqldatabase',
+				];
+		var str = '';
+		var $table = document.getElementsByTagName('table')[0];
+		var $btn1 = document.getElementById('btn1');
+		var $btn2 = document.getElementById('btn2');
+		var $content = document.getElementById('content');
+
+		config.forEach(function(item){
+			if(!Modernizr[item]){
+				str += '<tr><td class="red">' + item + '</td></tr>';
+			}else{
+				str += '<tr><td class="green">' + item + '</td></tr>'
+			}
+		});
+
+		$table.innerHTML = str;
+
+
+		var h = "";
+		h += " 网页可见区域宽："+ document.body.clientWidth+"\n";
+		h += " 网页可见区域高："+ document.body.clientHeight+"\n";
+		h += " 网页可见区域宽："+ document.body.offsetWidth +" (包括边线和滚动条的宽)"+"\n";
+		h += " 网页可见区域高："+ document.body.offsetHeight +" (包括边线的宽)"+"\n";
+		h += " 网页正文全文宽："+ document.body.scrollWidth+"\n";
+		h += " 网页正文全文高："+ document.body.scrollHeight+"\n";
+		h += " 屏幕分辨率的宽："+ window.screen.width+"\n";
+		h += " 屏幕分辨率的高："+ window.screen.height+"\n";
+		h += " 屏幕可用工作区宽度："+ window.screen.availWidth+"\n";
+		h += " 屏幕可用工作区高度："+ window.screen.availHeight+"\n";
+		h += " 你的屏幕设置是 "+ window.screen.colorDepth +" 位彩色"+"\n";
+		h += " 你的屏幕设置 "+ window.devicePixelRatio +" 像素/英寸"+"\n";
+
+		$content.innerHTML = '<pre>'+h+'</pre>';
+		
+
+		console.log(h);
+		console.info('点击下方查看更多检测结果:');
+		console.info(Modernizr);
+
+		$btn1.onclick = function(){
+			if ($table.style.display == 'none') {
+				$table.style.display = 'block';
+			} else {
+				$table.style.display = 'none';
+			}
+		};
+
+		$btn2.onclick = function(){
+			if ($content.style.display == 'none') {
+				$content.style.display = 'block';
+			} else {
+				$content.style.display = 'none';
+			}
+		};
+
+	});
+</script>
+</html>
